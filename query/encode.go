@@ -156,7 +156,6 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 			tag = sf.Tag.Get("json")
 			if tag != "" && !strings.Contains(tag, "omitempty") {
 				tag += ",omitempty"
-				println("added omitempty: ", tag)
 			}
 		}
 		name, opts := parseTag(tag)
