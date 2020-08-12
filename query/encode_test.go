@@ -326,3 +326,26 @@ func TestTagParsing(t *testing.T) {
 		}
 	}
 }
+
+func TestJSONTagRecognition(t *testing.T) {
+	type Wrap struct {
+		A string `json:"a"`
+	}
+	s := struct {
+		Wrap `url:"wrap"`
+	}{Wrap{A: "also json"}}
+	v, err := Values(s)
+	if err != nil {
+		t.Errorf("Values(%v) returned error: %v", s, err)
+	}
+	ret, ok := v["wrap[a]"]
+	if !ok {
+		t.Error("Values did not recognize the json tag")
+	}
+	if len(ret) == 0 {
+		t.Fatal("empty result from Value")
+	}
+	if ret[0] != "also json" {
+		t.Error("wrong value returned")
+	}
+}

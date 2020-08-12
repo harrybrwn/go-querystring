@@ -150,6 +150,11 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 		if tag == "-" {
 			continue
 		}
+		if tag == "" {
+			// This is the only reason this repository has been cloned.
+			// The `url` tags are usually the same as the ones used for json
+			tag = sf.Tag.Get("json")
+		}
 		name, opts := parseTag(tag)
 		if name == "" {
 			if sf.Anonymous && sv.Kind() == reflect.Struct {

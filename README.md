@@ -29,6 +29,22 @@ v, _ := query.Values(opt)
 fmt.Print(v.Encode()) // will output: "q=foo&all=true&page=2"
 ```
 
+This library was forked from the original repo to support the `json` tag. This allows the `Values` function to recognize
+json struct tags as a fallback if there is no `url` struct tag. The following examples will yeild equivalent results when passed to the `Values` function.
+```go
+type OptionsWithURL struct {
+  Query   string `url:"q"`
+  ShowAll bool   `url:"all"`
+  Page    int    `url:"page"`
+}
+
+type OptionsWithJSON struct {
+  Query   string `json:"q"`
+  ShowAll bool   `json:"all"`
+  Page    int    `json:"page"`
+}
+```
+
 [go-github]: https://github.com/google/go-github/commit/994f6f8405f052a117d2d0b500054341048fbb08
 
 ## License ##
