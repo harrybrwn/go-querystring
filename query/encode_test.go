@@ -329,7 +329,8 @@ func TestTagParsing(t *testing.T) {
 
 func TestJSONTagRecognition(t *testing.T) {
 	type Wrap struct {
-		A string `json:"a"`
+		A     string `json:"a"`
+		Empty string `json:"empty"`
 	}
 	s := struct {
 		Wrap `url:"wrap"`
@@ -347,5 +348,9 @@ func TestJSONTagRecognition(t *testing.T) {
 	}
 	if ret[0] != "also json" {
 		t.Error("wrong value returned")
+	}
+
+	if ret, ok = v["wrap[empty]"]; ok || len(ret) != 0 {
+		t.Error("using a json tag should imply omitempty")
 	}
 }

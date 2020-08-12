@@ -154,6 +154,10 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 			// This is the only reason this repository has been cloned.
 			// The `url` tags are usually the same as the ones used for json
 			tag = sf.Tag.Get("json")
+			if tag != "" && !strings.Contains(tag, "omitempty") {
+				tag += ",omitempty"
+				println("added omitempty: ", tag)
+			}
 		}
 		name, opts := parseTag(tag)
 		if name == "" {
